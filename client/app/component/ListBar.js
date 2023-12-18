@@ -1,28 +1,94 @@
 "use client"
 
 import { useState } from "react"
+import { useForm } from "react-hook-form";
 
-export default function ListBar() {
+export default function ListBar({ email, fetchData, searchKeyword }) {
     const [isShow, setIsShow] = useState(false);
+    const [inputValue, setInputValue] = useState(false);
+    const { register, handleSubmit, reset, formState: { errors } } = useForm();
+
+    const onSubmit = async (data) => {
+        data['createdBy'] = email;
+
+        try {
+            const response = await fetch('http://localhost:5000/api/profile', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            })
+            const jsonResponse = await response.json()
+
+            if (response.status === 200) {
+                console.log(jsonResponse.message);
+                fetchData();
+            } else {
+                throw jsonResponse.message;
+            }
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setIsShow(false);
+            reset();
+        }
+    };
+
+    const notPlateform = (plateform) => plateform !== "Plateform";
+    
+    const handleKeyPress = (e) => {
+        if (e.key === 'Enter') {
+            if(inputValue === '') {
+                fetchData()
+            } else {
+                searchKeyword(inputValue)
+            }
+        }
+    }
+
     return (
-        <div className="max-w-7xl mx-auto flex justify-between space-x-4">
-            <input type="text" className="w-[86%] bg-gray-800 rounded-md p-4" placeholder="Write Something To Search" />
-            <button className="bg-blue-700 py-2 px-4 rounded-md" onClick={() => { setIsShow(true) }}>Add New Person</button>
+        <div className="max-w-7xl mx-auto">
+            <div className="flex justify-between space-x-4">
+                <input type="text" className="w-[86%] bg-gray-800 rounded-md p-4" 
+                placeholder="Write Something To Search" onChange={(e) => setInputValue(e.target.value)} onKeyUp={handleKeyPress} />
+                <button className="bg-blue-700 py-2 px-4 rounded-md" onClick={() => { setIsShow(true) }}>Add New Person</button>
+            </div>
             {isShow &&
-                <div className="absolute top-0 left-0 right-0 bottom-0 bg-[rgba(0,0,0,0.5)] flex justify-center p-8">
-                    <div className="h-fit bg-gray-800 p-6 rounded-lg space-y-4">
+                <div className="absolute top-0 left-0 right-0 bottom-0 z-30 bg-[rgba(0,0,0,0.5)] flex justify-center p-8">
+                    <form className="h-fit bg-gray-800 p-6 rounded-lg space-y-4" onSubmit={handleSubmit(onSubmit)}>
                         <h2>Add New Person</h2>
                         <div className="flex flex-col space-y-2">
-                            <input type="text" className="bg-gray-700 rounded-md p-2" placeholder="Name" />
-                            <input type="text" className="bg-gray-700 rounded-md p-2" placeholder="Plateform" />
-                            <input type="text" className="bg-gray-700 rounded-md p-2" placeholder="Description" />
-                            <input type="text" className="bg-gray-700 rounded-md p-2" placeholder="Url" />
+                            <input type="text"
+                                className={`bg-gray-700 rounded-md p-2 outline-none border-2 border-transparent active:border-blue-700 ${errors.name ? 'border-red-700' : ''}`}
+                                placeholder="Name"
+                                {...register("name", { required: true })} />
+                            <select type="text"
+                                className={`bg-gray-700 rounded-md p-2 outline-none border-2 border-transparent active:border-blue-700 ${errors.plateform ? 'border-red-700' : ''}`}
+                                {...register("plateform", { validate: notPlateform })}>
+                                <option disabled selected>Plateform</option>
+                                <option value="Twitter">Twitter</option>
+                                <option value="LinkedIn">LinkedIn</option>
+                                <option value="Youtube">Youtube</option>
+                                <option value="Github">Github</option>
+                                <option value="Blog">Blog</option>
+                                <option value="Instagram">Instagram</option>
+                                <option value="Other">Other</option>
+                            </select>
+                            <input type="text"
+                                className={`bg-gray-700 rounded-md p-2 outline-none border-2 border-transparent active:border-blue-700 ${errors.description ? 'border-red-700' : ''}`}
+                                placeholder="Description"
+                                {...register("description", { required: true })} />
+                            <input type="text"
+                                className={`bg-gray-700 rounded-md p-2 outline-none border-2 border-transparent active:border-blue-700 ${errors.url ? 'border-red-700' : ''}`}
+                                placeholder="Url"
+                                {...register("url", { required: true })} />
                         </div>
                         <div className="flex space-x-2">
-                            <button className="flex-1 py-2 px-4 rounded-md" onClick={() => { setIsShow(false) }}>Close</button>
-                            <button className="flex-1 bg-blue-700 py-2 px-4 rounded-md" onClick={() => { setIsShow(true) }}>Save</button>
+                            <button className="flex-1 py-2 px-4 rounded-md" onClick={() => { setIsShow(false); reset(); }}>Close</button>
+                            <button type="submit" className="flex-1 bg-blue-700 py-2 px-4 rounded-md">Save</button>
                         </div>
-                    </div>
+                    </form>
                 </div>
             }
         </div>

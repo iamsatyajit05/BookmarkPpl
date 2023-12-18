@@ -11,7 +11,7 @@ const app = express()
 const port = 5000
 
 const corsOptions = {
-    origin: 'http://localhost:3000',
+    origin: 'http://localhost:3001',
     optionsSuccessStatus: 200,
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,

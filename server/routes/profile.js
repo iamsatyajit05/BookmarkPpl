@@ -7,6 +7,9 @@ const router = express.Router();
 router.post("/", async (req, res) => {
     const newRecord = new Profile(req.body);
     try {
+        const embedding = await getEmbedding(newRecord.description);
+        newRecord['plot_embedding'] = embedding;
+
         await newRecord.save();
         res.status(200).json({ message: "Record created successfully!" });
     } catch (error) {
@@ -16,10 +19,14 @@ router.post("/", async (req, res) => {
 
 // UPDATE
 router.put("/:id", async (req, res) => {
+    const updateRecord = req.body;
     try {
+        const embedding = await getEmbedding(updateRecord.description);
+        updateRecord['plot_embedding'] = embedding;
+
         await Profile.findByIdAndUpdate(
             req.params.id,
-            { $set: req.body },
+            { $set: updateRecord },
             { new: true }
         );
         res.status(200).json({ message: "Record updated successfully!" });
@@ -27,6 +34,7 @@ router.put("/:id", async (req, res) => {
         res.status(500).json(error);
     }
 });
+
 
 // DELETE
 router.delete("/:id", async (req, res) => {
@@ -47,5 +55,34 @@ router.get("/:email", async (req, res) => {
         res.status(500).json(error);
     }
 });
+
+// SEARCH
+router.get("/search/:query", async (req, res) => {
+    try {
+        // const profiles = await Profile.find({ createdBy: req.params.email });
+        const profiles = await Profile.aggregate([
+            {
+                $search: {
+                    index: "description",
+                    text: {
+                        query: req.params.query,
+                        path: {
+                            wildcard: "*"
+                        }
+                    }
+                }
+            },
+            {
+                $project: { "_id": 1, "name": 1, "plateform": 1, "description": 1, "url": 1, "createdBy": 1 }
+            }
+        ]);
+        console.log(profiles);
+        res.status(200).json(profiles);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json(error);
+    }
+});
+
 
 export default router;

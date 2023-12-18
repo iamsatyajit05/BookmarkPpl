@@ -6,7 +6,8 @@ const profileSchema = new Schema(
     plateform: { type: String, required: true },
     description: {type: String, required: true},
     url: {type: String, required: true},
-    createdBy: {type: String, require: true}
+    createdBy: {type: String, require: true},
+    plot_embedding: {type: Array, require: true}
   },
   { timestamps: true }
 );
