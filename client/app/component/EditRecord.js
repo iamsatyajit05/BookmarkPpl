@@ -1,5 +1,6 @@
 "use client"
 import { useForm } from "react-hook-form";
+import getBaseUrl from '../api/http'
 
 export default function EditRecord({ profileData, isShow, setIsShow, fetchData }) {
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
@@ -8,7 +9,7 @@ export default function EditRecord({ profileData, isShow, setIsShow, fetchData }
         data['createdBy'] = profileData.email;
         
         try {
-            const response = await fetch(`http://localhost:5000/api/profile/${profileData._id}`, {
+            const response = await fetch(`${getBaseUrl()}/api/profile/${profileData._id}`, {
                 method: 'PUT',
                 headers: {
                     "Content-Type": "application/json"

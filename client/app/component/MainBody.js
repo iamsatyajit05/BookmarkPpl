@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 import ListBar from "./ListBar";
 import ItemCard from "./ItemCard";
+import getBaseUrl from "../api/http";
 
 export default function MainBody({ email }) {
     const [isLoading, setIsLoading] = useState(true);
@@ -15,9 +16,9 @@ export default function MainBody({ email }) {
 
         let url;
         if (inputValue === '') {
-            url = `http://localhost:5000/api/profile/${email}`
+            url = `${getBaseUrl()}/api/profile/${email}`
         } else {
-            url = `http://localhost:5000/api/profile/${email}/search/${inputValue}`
+            url = `${getBaseUrl()}/api/profile/${email}/search/${inputValue}`
         }
 
         try {
