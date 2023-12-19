@@ -3,9 +3,8 @@
 import { useState } from "react"
 import { useForm } from "react-hook-form";
 
-export default function ListBar({ email, fetchData, searchKeyword }) {
+export default function ListBar({ email, fetchData, setInputValue }) {
     const [isShow, setIsShow] = useState(false);
-    const [inputValue, setInputValue] = useState(false);
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
 
     const onSubmit = async (data) => {
@@ -39,16 +38,12 @@ export default function ListBar({ email, fetchData, searchKeyword }) {
     
     const handleKeyPress = (e) => {
         if (e.key === 'Enter') {
-            if(inputValue === '') {
-                fetchData()
-            } else {
-                searchKeyword(inputValue)
-            }
+            fetchData()
         }
     }
 
     return (
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-7xl mx-auto px-4 md:px-10 xl:px-0">
             <div className="flex justify-between space-x-4">
                 <input type="text" className="w-[86%] bg-gray-800 rounded-md p-4" 
                 placeholder="Write Something To Search" onChange={(e) => setInputValue(e.target.value)} onKeyUp={handleKeyPress} />
