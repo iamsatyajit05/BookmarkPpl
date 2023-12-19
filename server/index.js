@@ -10,7 +10,7 @@ dotenv.config()
 const app = express()
 const port = 5000
 
-const allowedOrigin = process.env.NODE_ENV === 'development' ? 'http://localhost:3001' : 'https://bookmark-ppl.vercel.app/';
+const allowedOrigin = process.env.NODE_ENV === 'development' ? 'http://localhost:3001' : 'https://bookmark-ppl.vercel.app';
 
 const corsOptions = {
     origin: allowedOrigin,
