@@ -9,11 +9,19 @@ dotenv.config()
 
 const app = express()
 const port = 5000
-
+ 
 const allowedOrigin = process.env.NODE_ENV === 'development' ? 'http://localhost:3001' : 'https://bookmark-ppl.vercel.app';
 
+var whitelist = [allowedOrigin]
+
 const corsOptions = {
-    origin: allowedOrigin,
+    origin: function (origin, callback) {
+        if (whitelist.indexOf(origin) !== -1 || !origin) {
+            callback(null, true)
+        } else {
+            callback(new Error('Not allowed by CORS'))
+        }
+    },
     optionsSuccessStatus: 200,
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,

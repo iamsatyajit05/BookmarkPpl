@@ -2,7 +2,6 @@
 
 import { useState } from "react"
 import { useForm } from "react-hook-form";
-import getBaseUrl from "../api/http";
 
 export default function ListBar({ email, fetchData, setInputValue }) {
     const [isShow, setIsShow] = useState(false);
@@ -12,7 +11,7 @@ export default function ListBar({ email, fetchData, setInputValue }) {
         data['createdBy'] = email;
         
         try {
-            const response = await fetch(`${getBaseUrl()}/api/profile`, {
+            const response = await fetch(`/api/profile`, {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json"
