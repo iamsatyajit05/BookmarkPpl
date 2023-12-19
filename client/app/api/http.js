@@ -2,7 +2,7 @@ export default function getBaseUrl() {
     let url;
     switch (process.env.NODE_ENV) {
         case 'production':
-            url = 'https://bookmark-ppl-server.vercel.app';
+            url = 'https://bookmark-ppl-server.onrender.com';
             break;
         case 'development':
         default:
