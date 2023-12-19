@@ -35,7 +35,7 @@ export default function EditRecord({ profileData, isShow, setIsShow, fetchData }
         isShow &&
         <div className="absolute top-0 left-0 right-0 bottom-0 z-10  bg-[rgba(0,0,0,0.5)] flex justify-center p-8">
             <form className="h-fit bg-gray-800 p-6 rounded-lg space-y-4" onSubmit={handleSubmit(onSubmit)}>
-                <h2>Add New Person</h2>
+                <h2>Edit Profile</h2>
                 <div className="flex flex-col space-y-2">
                     <input type="text"
                         className={`bg-gray-700 rounded-md p-2 outline-none border-2 border-transparent active:border-blue-700 ${errors.name ? 'border-red-700' : ''}`}

@@ -44,15 +44,15 @@ export default function ListBar({ email, fetchData, setInputValue }) {
 
     return (
         <div className="max-w-7xl mx-auto px-4 md:px-10 xl:px-0">
-            <div className="flex justify-between space-x-4">
-                <input type="text" className="w-[86%] bg-gray-800 rounded-md p-4" 
+            <div className="flex flex-col xs:flex-row justify-between gap-2 md:gap-4">
+                <input type="text" className="flex-1 bg-gray-800 rounded-md p-2 sm:p-3" 
                 placeholder="Write Something To Search" onChange={(e) => setInputValue(e.target.value)} onKeyUp={handleKeyPress} />
-                <button className="bg-blue-700 py-2 px-4 rounded-md" onClick={() => { setIsShow(true) }}>Add New Person</button>
+                <button className="flex-4   sm:block bg-blue-700 py-2 px-4 rounded-md" onClick={() => { setIsShow(true) }}>Add New Profile</button>
             </div>
             {isShow &&
                 <div className="absolute top-0 left-0 right-0 bottom-0 z-30 bg-[rgba(0,0,0,0.5)] flex justify-center p-8">
                     <form className="h-fit bg-gray-800 p-6 rounded-lg space-y-4" onSubmit={handleSubmit(onSubmit)}>
-                        <h2>Add New Person</h2>
+                        <h2>Add New Profile</h2>
                         <div className="flex flex-col space-y-2">
                             <input type="text"
                                 className={`bg-gray-700 rounded-md p-2 outline-none border-2 border-transparent active:border-blue-700 ${errors.name ? 'border-red-700' : ''}`}
