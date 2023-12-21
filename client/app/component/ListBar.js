@@ -11,7 +11,7 @@ export default function ListBar({ email, fetchData, setInputValue }) {
         data['createdBy'] = email;
         
         try {
-            const response = await fetch(`/api/profile`, {
+            const response = await fetch(`https://bookmark-ppl-server.onrender.com/api/profile`, {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json"

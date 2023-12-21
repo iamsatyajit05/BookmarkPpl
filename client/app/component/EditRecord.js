@@ -8,7 +8,7 @@ export default function EditRecord({ profileData, isShow, setIsShow, fetchData }
         data['createdBy'] = profileData.email;
         
         try {
-            const response = await fetch(`/api/profile/${profileData._id}`, {
+            const response = await fetch(`https://bookmark-ppl-server.onrender.com/api/profile/${profileData._id}`, {
                 method: 'PUT',
                 headers: {
                     "Content-Type": "application/json"

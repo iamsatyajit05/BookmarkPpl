@@ -15,11 +15,11 @@ export default function MainBody({ email }) {
 
         let url;
         if (inputValue === '') {
-            url = `/api/profile/${email}`
+            url = `https://bookmark-ppl-server.onrender.com/api/profile/${email}`
         } else {
-            url = `/api/profile/${email}/search/${inputValue}`
+            url = `https://bookmark-ppl-server.onrender.com/api/profile/${email}/search/${inputValue}`
         }
-
+        
         try {
             const response = await fetch(url, {
                 method: 'GET',
@@ -52,8 +52,8 @@ export default function MainBody({ email }) {
             </div>
             {
                 profileData && <div className=" max-w-7xl mx-auto px-4 md:px-10 xl:px-0 grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-                    {profileData.map((e) => {
-                        return <ItemCard data={e} fetchData={fetchData} />
+                    {profileData.map((e, index) => {
+                        return <ItemCard key={index} data={e} fetchData={fetchData} />
                     })}
                 </div>
             }

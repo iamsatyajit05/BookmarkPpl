@@ -33,7 +33,7 @@ export default function ItemCard({ data, fetchData }) {
 
     const deleteRecord = async (id) => {
         try {
-            const response = await fetch(`/api/profile/${id}`, {
+            const response = await fetch(`https://bookmark-ppl-server.onrender.com/api/profile/${id}`, {
                 method: 'DELETE',
                 headers: {
                     "Content-Type": "application/json"
